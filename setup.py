@@ -31,8 +31,11 @@ setup(name="PyENCODE",
       description="Convenience package for accessing ENCODE (Encyclopedia of DNA Elements) project data at UCSC",
       long_description=open("README.rst").read(),
       classifiers=[ # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 1 - Planning',
-        'Programming Language :: Python'
+        'Development Status :: 3 - Alpha',
+        'Programming Language :: Python',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: MIT License',
+        'Topic :: Scientific/Engineering :: Bio-Informatics'
       ],
       keywords="bioinformatics data-access encode", # Separate with spaces
       author="Konstantin Tretyakov",
@@ -43,13 +46,7 @@ setup(name="PyENCODE",
       include_package_data=True,
       zip_safe=True,
       tests_require=['pytest'],
-      cmdclass={'test': PyTest},
-      
-      # TODO: List of packages that this one depends upon:   
-      install_requires=[],
-      # TODO: List executable scripts, provided by the package (this is just an example)
-      entry_points={
-        'console_scripts': 
-            ['PyENCODE=pyencode:main']
-      }
+      cmdclass={'test': PyTest},      
+      install_requires=['PyIntervalTree'],
+      entry_points={}
 )
