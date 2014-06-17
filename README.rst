@@ -73,3 +73,5 @@ Copyright & License
 Copyright 2014, Konstantin Tretyakov
 
 MIT License.
+
+Submit issues and fixes at https://github.com/konstantint/PyENCODE
