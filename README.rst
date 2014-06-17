@@ -10,7 +10,7 @@ In principle, downloading and reading the file is rather straightforward. What t
 
     >> from pyencode import Encode
     >> e = Encode(cache_dir = 'wgEncode')
-    >> e.AwgSegmentation.CombinedK562.read_as_intervaltree()
+    >> gtree = e.AwgSegmentation.CombinedK562.fetch().read_as_intervaltree()
     
 As another example, here is how to list and pre-download all files in the ``AwgSegmentation`` collection into cache::
 
@@ -59,10 +59,10 @@ In addition, ``EncodeFile`` provides a set of convenience fields and methods:
   * ``keys()`` - Set of all file attributes that can be accessed via ``[]``.
   * ``url`` - Return the URL of the file online.
   * ``local_url`` - The URL of the cached copy. It is not guaranteed that the file exists, so it is often more practical to do ``.fetch().local_url``.
-  * ``local_path`` - Return the path of the locally cached copy. It is not guaranteed that the file exists, so it is often more practical to do ``.fetch().local_path()``. 
+  * ``local_path`` - Return the path of the locally cached copy. It is not guaranteed that the file exists. 
   * ``open()`` - Open the file in binary mode for reading. If the file is not in cache, it is *not* downloaded to cache and opened from the web (so, it is often more practical to do ``.fetch().open()``).
   * ``open_text()`` - Open the file in text mode for reading. If the file is not in cache it is *not* downloaded to cache and opened from the web. If the file is a `.gz` file, it is automatically unpacked (i.e. the returned file instance is an opened `GzipFile`).
-  * ``read_as_intervaltree()`` - Read a ``BED`` file into an ``intervaltree.bio.GenomeIntervalTree`` data structure. Will not automatically fetch file to cache (will read off the web if file is not cached).
+  * ``read_as_intervaltree()`` - Read a ``BED`` file into an ``intervaltree.bio.GenomeIntervalTree`` data structure. Simiarly, if the file is not in cache, it is not automatically downloaded.
 
 Note that ``Encode`` is not safe for doing multithreading or multiprocessing, unless all the necessary files are already cached.
 
