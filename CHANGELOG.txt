@@ -1,3 +1,9 @@
+Version 0.2
+-----------
+
+    - Fixed tests to work with the changed ENCODE data
+    - Replaced dependency on PyIntervalTree with intervaltree_bio
+
 Version 0.1
 -----------
 

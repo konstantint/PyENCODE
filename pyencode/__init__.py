@@ -11,10 +11,10 @@ The basic usage examples are the following:
  
     >>> from pyencode import Encode
     >>> e = Encode()
-    >>> for collection in e:
+    >>> for collection in sorted(e):
     ...    print(collection.name)
     AffyRnaChip
-    AwgDnaseUniform
+    AwgDnaseMasterSites
     ...
     UwTfbs
     

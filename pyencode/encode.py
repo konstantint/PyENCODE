@@ -10,7 +10,7 @@ import os.path
 import re
 import urllib
 
-from intervaltree.bio import GenomeIntervalTree
+from intervaltree_bio import GenomeIntervalTree
 
 from .cache import Cache
 from ._gzip import GzipInputStream
@@ -128,6 +128,8 @@ class EncodeCollection(object):
             prefix_len = len('wgEncodeRegTfbs')
         elif self.name == 'Uw5C':
             prefix_len = len('wgEncodeUw5c')
+        elif self.name == 'AwgDnaseMasterSites':
+            prefix_len = len('AwgDnaseMaster')
         else:
             assert filename.startswith('wgEncode%s' % self.name), "Error on %s" % filename            
             prefix_len = len('wgEncode') + len(self.name)
@@ -149,6 +151,9 @@ class EncodeCollection(object):
         self._init() # Init lazily
         return self._files_dict[name]    
     
+    def __lt__(self, o):
+        '''Collections are compared by their names.'''
+        return self.name < o
     
 class EncodeFile(object):
     '''A class representing an ENCODE data file'''
@@ -202,7 +207,7 @@ class EncodeFile(object):
     
     def read_as_intervaltree(self):
         '''
-        Reads the data from a 'bed' file into an ``intervaltree.bio.GenomeIntervalTree`` data structure.
+        Reads the data from a 'bed' file into an ``intervaltree_bio.GenomeIntervalTree`` data structure.
         Similarly to ``open`` and ``open_text`` it won't download file to cache, if it is not there.
         Reads the whole file to memory during its work.
         

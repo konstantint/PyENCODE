@@ -18,21 +18,23 @@ import shutil
 # When False, a clean temporary cache directory will always be created with each test run.
 USE_LOCAL_CACHE = True
 
+# NB: Encode data seems to change from time to time, tests may start failing because of that.
+
 def test_encode():
     CACHE_DIR = 'PyEncode_cache_dir'
     if os.path.exists(CACHE_DIR):
         shutil.rmtree(CACHE_DIR)
     
-    COLLECTIONS = ['AffyRnaChip', 'AwgDnaseUniform', 'AwgSegmentation', 'AwgTfbsUniform', 'BroadHistone', 'BroadHmm', 'BuOrchid', 'CaltechRnaSeq', 'CshlLongRnaSeq', 'CshlShortRnaSeq', 'DukeAffyExon', 'FsuRepliChip', 'GencodeV4', 'GencodeV7', 'GencodeV10', 'GencodeV11', 'GencodeV12', 'GisChiaPet', 'GisDnaPet', 'GisRnaPet', 'GisRnaSeq', 'HaibGenotype', 'HaibMethyl450', 'HaibMethylRrbs', 'HaibRnaSeq', 'HaibTfbs', 'Mapability', 'OpenChromChip', 'OpenChromDnase', 'OpenChromFaire', 'OpenChromSynth', 'RegDnaseClustered', 'RegMarkH3k4me1', 'RegMarkH3k4me3', 'RegMarkH3k27ac', 'RegTfbsClustered', 'RegTxn', 'RikenCage', 'SunyAlbanyGeneSt', 'SunyAlbanyTiling', 'SunyRipSeq', 'SunySwitchgear', 'SydhHistone', 'SydhNsome', 'SydhRnaSeq', 'SydhTfbs', 'UchicagoTfbs', 'UmassDekker5C', 'UncBsuProt', 'UncBsuProtGenc', 'Uw5C', 'UwAffyExonArray', 'UwDgf', 'UwDnase', 'UwHistone', 'UwRepliSeq', 'UwTfbs']
+    COLLECTIONS = ['AffyRnaChip', 'AwgDnaseUniform', 'AwgSegmentation', 'AwgTfbsUniform', 'BroadHistone', 'BroadHmm', 'BuOrchid', 'CaltechRnaSeq', 'CshlLongRnaSeq', 'CshlShortRnaSeq', 'DukeAffyExon', 'FsuRepliChip', 'GencodeV4', 'GencodeV7', 'GencodeV10', 'GencodeV11', 'GencodeV12', 'GisChiaPet', 'GisDnaPet', 'GisRnaPet', 'GisRnaSeq', 'HaibGenotype', 'HaibMethyl450', 'HaibMethylRrbs', 'HaibRnaSeq', 'HaibTfbs', 'Mapability', 'OpenChromChip', 'OpenChromDnase', 'OpenChromFaire', 'OpenChromSynth', 'RegDnaseClustered', 'RegMarkH3k4me1', 'RegMarkH3k4me3', 'RegMarkH3k27ac', 'RegTfbsClustered', 'RegTxn', 'RikenCage', 'SunyAlbanyGeneSt', 'SunyAlbanyTiling', 'SunyRipSeq', 'SunySwitchgear', 'SydhHistone', 'SydhNsome', 'SydhRnaSeq', 'SydhTfbs', 'UchicagoTfbs', 'UmassDekker5C', 'UncBsuProt', 'UncBsuProtGenc', 'Uw5C', 'UwAffyExonArray', 'UwDgf', 'UwDnase', 'UwHistone', 'UwRepliSeq', 'UwTfbs', 'AwgDnaseMasterSites']
     
     e = Encode(CACHE_DIR)
-    assert e._collections_names == COLLECTIONS
+    assert sorted(e._collections_names) == sorted(COLLECTIONS)
     
     # Iteration
     names = []
     for c in e:
         names.append(c.name)
-    assert names == COLLECTIONS
+    assert sorted(names) == sorted(COLLECTIONS)
     
     # Key access
     assert e['AffyRnaChip'].name == 'AffyRnaChip'
@@ -100,7 +102,7 @@ def test_encode():
     if USE_LOCAL_CACHE:
         e = Encode()
     all_files = [_f for _c in e for _f in _c]
-    assert len(all_files) == 25229  # Total number of files in ENCODE
+    assert len(all_files) == 25231  # Total number of files in ENCODE
     
     # Reading file as an interval tree:
     testFile = e.AwgTfbsUniform.HaibH1hescGabpPcr1xUniPk
@@ -114,7 +116,7 @@ def _test_promotorsearch():
     # Realistic example: find a promotor of a given gene ('NANOG', for example)
     # It is slow, so you don't want to run it too much.
     
-    from intervaltree.bio import GenomeIntervalTree, UCSCTable
+    from intervaltree_bio import GenomeIntervalTree, UCSCTable
     # Download refGene table
     refGene = GenomeIntervalTree.from_table(url='http://hgdownload.cse.ucsc.edu/goldenpath/hg19/database/refGene.txt.gz', parser=UCSCTable.REF_GENE)
     # Find the NANOG gene
